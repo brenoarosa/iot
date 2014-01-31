@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    
+     $.getJSON('http://dca.telefonicabeta.com/m2m/v2/services/8boy0zr4vrm1/assets/8boy0zr4vrm1/', function (data) {
+      var sensors = eval(data.data.sensorData);
+      sTypes = [".luz", ".botao", ".humidade", ".temp", ".som"];
+
+      for ( var i = 0; i < 5; i++){
+        var tipoSensor = sensors[i].ms.p;
+        var valSensor = sensors[i].ms.v;
+        $(sTypes[i]).html(tipoSensor + ": " + valSensor);
+      }
+      
+      var lastUpdate = sensors[0].st;
+      $(".data").html("Ultima Atualizacao: " +lastUpdate);
+
+    });
+
+  });
+});
+</script>
+</head>
+<body>
+
+<div class="luz"></div>
+<div class="botao"></div>
+<div class="humidade"></div>
+<div class="temp"></div>
+<div class="som"></div>
+<div class="data"></div>
+<button>Atualizar dados!</button>
+
+</body>
+</html>
+
